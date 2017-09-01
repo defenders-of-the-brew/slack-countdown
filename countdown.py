@@ -54,7 +54,7 @@ def events(strdate, event, business_days):
     minutes = delta.seconds/60%60
     seconds = delta.seconds%60
 
-    return "*%d*D*%d*H*%d*M*%d*S until %s" % (days, hours, minutes, seconds, event)
+    return "%02dD %02dH %02dM %02dS until %s" % (days, hours, minutes, seconds, event)
 
 
 def date_only(strdate, business_days):

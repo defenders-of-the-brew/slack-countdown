@@ -48,19 +48,13 @@ def events(strdate, event, business_days):
     """ Returns string to be displayed with the event mentioned. Sends an error
     if date is incorrect
     """
-    days = days_from_date(strdate, business_days)
-    day_qualifier = ""
-    if business_days:
-        day_qualifier = "business "
-    assert (days >= -2), "Date needs to be in the future"
-    if days == -1:
-        return "%d %sday since %s" % (1, day_qualifier, event)
-    elif days == -2:
-        return "%d %sdays since %s" % (2, day_qualifier, event)
-    elif days == 1:
-        return "%d %sday until %s" % (days, day_qualifier, event)
-    else:
-        return "%d %sdays until %s" % (days, day_qualifier, event)
+    delta = days_from_date(strdate)
+    days = delta.days
+    hours = delta.seconds/60/60
+    minutes = delta.seconds/60%60
+    seconds = delta.seconds%60
+
+    return "%dD%dH%dM%dS until %s", days, hours, minutes, seconds, day_qualifier
 
 
 def date_only(strdate, business_days):

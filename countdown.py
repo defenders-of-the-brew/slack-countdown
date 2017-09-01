@@ -42,7 +42,7 @@ def days_from_date(strdate, business_days):
     current_date = datetime.now()
     end_date = datetime.strptime(strdate, "%Y-%m-%d %H:%M:%S")
     delta = end_date - current_date
-    if delta.days < 0
+    if delta.days < 0:
         exit()
     return delta
 

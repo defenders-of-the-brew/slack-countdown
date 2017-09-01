@@ -67,7 +67,7 @@ def date_only(strdate, business_days):
     minutes = delta.seconds/60%60
     seconds = delta.seconds%60
 
-    return "%dD%dH%dM%dS until %s", days, hours, minutes, seconds, day_qualifier
+    return "**%d:%d:%d:%d** until %s", days, hours, minutes, seconds, day_qualifier
 
 
 

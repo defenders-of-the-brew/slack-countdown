@@ -40,7 +40,7 @@ def days_from_date(strdate, business_days):
     as date caclulate is relative to time
     """
     current_date = datetime.now()
-    end_date = datetime.strptime(strdate, "%Y-%m-%d")
+    end_date = datetime.strptime(strdate, "%Y-%m-%d %H:%M:%S")
     delta = end_date - current_date
     return delta
 

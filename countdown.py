@@ -54,7 +54,7 @@ def events(strdate, event, business_days):
     minutes = delta.seconds/60%60
     seconds = delta.seconds%60
 
-    return "**%d:%d:%d:%d** until %s" % (days, hours, minutes, seconds, event)
+    return "*%d*D*%d*H*%d*M*%d*S until %s" % (days, hours, minutes, seconds, event)
 
 
 def date_only(strdate, business_days):
@@ -66,10 +66,7 @@ def date_only(strdate, business_days):
     hours = delta.seconds/60/60
     minutes = delta.seconds/60%60
     seconds = delta.seconds%60
-
-    return "*%d*D*%d*H*%d*M*%d*S until %s", days, hours, minutes, seconds, day_qualifier
-
-
+    return "*%d*D*%d*H*%d*M*%d*S until %s" % (days, hours, minutes, seconds, business_days)
 
 def post(out):
     """ Posts a request to the slack webhook. Payload can be customized

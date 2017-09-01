@@ -48,7 +48,7 @@ def events(strdate, event, business_days):
     """ Returns string to be displayed with the event mentioned. Sends an error
     if date is incorrect
     """
-    delta = days_from_date(strdate)
+    delta = days_from_date(strdate, False)
     days = delta.days
     hours = delta.seconds/60/60
     minutes = delta.seconds/60%60

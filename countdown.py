@@ -137,8 +137,6 @@ def deadline(date, event, business_days):
                 result = date_only(date, business_days)
         else:
             result = days_from_christmas()
-    except:
-        post_error()
     else:
         post(result)
 

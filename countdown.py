@@ -39,16 +39,10 @@ def days_from_date(strdate, business_days):
     """ Returns the number of days between strdate and today. Add one to date
     as date caclulate is relative to time
     """
-   current_date = datetime.now()
-   end_date = datetime.strptime(strdate, "%Y-%m-%d")
-   delta = end_date - current_date
-   return delta
-   days = delta.days
-   hours = delta.seconds/60/60
-   minutes = delta.seconds/60%60
-   seconds = delta.seconds%60
-
-   return "%dD%dH%dM%dS until Destiny 2 is released!", days, hours, minutes, seconds
+    current_date = datetime.now()
+    end_date = datetime.strptime(strdate, "%Y-%m-%d")
+    delta = end_date - current_date
+    return delta
 
 def events(strdate, event, business_days):
     """ Returns string to be displayed with the event mentioned. Sends an error

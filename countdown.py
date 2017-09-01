@@ -128,17 +128,15 @@ def deadline(date, event, business_days):
     the number of days till the event. If no arguments are given,
     the number of days till Christmas is displayed.
     """
-    try:
-        result = ""
-        if date:
-            if event:
-                result = events(date, event, business_days)
-            else:
-                result = date_only(date, business_days)
+    result = ""
+    if date:
+        if event:
+            result = events(date, event, business_days)
         else:
-            result = days_from_christmas()
+            result = date_only(date, business_days)
     else:
-        post(result)
+        result = days_from_christmas()
+    post(result)
 
 
 

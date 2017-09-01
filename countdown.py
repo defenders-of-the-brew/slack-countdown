@@ -20,7 +20,7 @@ if not SLACK_URL:
     exit(1)
 
 def days_from_christmas():
-    """Calculates the number of days between the current date and the next 
+    """Calculates the number of days between the current date and the next
     Christmas. Returns the string to displayed.
     """
     currentdate = datetime.now()
@@ -39,15 +39,17 @@ def days_from_date(strdate, business_days):
     """ Returns the number of days between strdate and today. Add one to date
     as date caclulate is relative to time
     """
-    currentdate = datetime.today()
-    futuredate = datetime.strptime(strdate, '%Y-%m-%d')
-    if business_days:
-        delta = workdays.networkdays(currentdate, futuredate)
-    else:
-        delta = (futuredate - currentdate).days + 1
-    return delta
+   current_date = datetime.now()
+   end_date = datetime.strptime(strdate, "%Y-%m-%d")
+   delta = end_date - current_date
+   return delta
+   days = delta.days
+   hours = delta.seconds/60/60
+   minutes = delta.seconds/60%60
+   seconds = delta.seconds%60
 
-    
+   return "%dD%dH%dM%dS until Destiny 2 is released!", days, hours, minutes, seconds
+
 def events(strdate, event, business_days):
     """ Returns string to be displayed with the event mentioned. Sends an error
     if date is incorrect
@@ -71,39 +73,32 @@ def date_only(strdate, business_days):
     """ Returns string to be displayed. Sends error message if date is
     in the past
     """
-    days = days_from_date(strdate)
-    day_qualifier = ""
-    if business_days:
-        day_qualifier = "business "
-    assert (days >= -2), "Date needs to be in the future"
-    futuredate = datetime.strptime(strdate, '%Y-%m-%d')
-    if days == -1:
-        return "%d %sday since %s" % (1, day_qualifier, futuredate.strftime("%d %B, %Y"))
-    if days == -2:
-        return "%d %sdays since %s" % (days, day_qualifier, futuredate.strftime("%d %B, %Y")) 
-    if days == 1:
-        return "%d %sday until %s" % (days, day_qualifier, futuredate.strftime("%d %B, %Y")) 
-    else:
-        return "%d %sdays until %s" % (days, day_qualifier, futuredate.strftime("%d %B, %Y"))
-    
+    delta = days_from_date(strdate)
+    days = delta.days
+    hours = delta.seconds/60/60
+    minutes = delta.seconds/60%60
+    seconds = delta.seconds%60
+
+    return "%dD%dH%dM%dS until %s", days, hours, minutes, seconds, day_qualifier
+
 
 
 def post(out):
     """ Posts a request to the slack webhook. Payload can be customized
-    so the message in slack is customized. The variable out is the text 
+    so the message in slack is customized. The variable out is the text
     to be displayed.
-    """    
+    """
 
     payload = {
         "attachments": [
-            {   
+            {
                 "title": "COUNTDOWN!",
                 "text": out,
                 "color": "#7CD197"
             }
         ]
     }
-    
+
     r = requests.post(SLACK_URL, data=json.dumps(payload))
 
 
@@ -111,7 +106,7 @@ def post_error():
     """Sends error message in Slack to alert the user
     about the incorrect date argument
     """
-    
+
     payload = {
         "attachments": [
             {
@@ -123,22 +118,22 @@ def post_error():
             }
         ]
     }
-    
+
     r = requests.post(SLACK_URL, data=json.dumps(payload))
- 
+
 
 @manager.option("-d", "--deadline", dest="date",
-                      help="Specify the deadline in ISO format: yyyy-mm-dd", 
+                      help="Specify the deadline in ISO format: yyyy-mm-dd",
                       metavar="DEADLINE")
-@manager.option("-e", "--event", dest="event", 
+@manager.option("-e", "--event", dest="event",
                       help="Name of the deadline event",metavar="EVENT")
-@manager.option("-b", "--business-days", dest="business_days", action="store_true", 
+@manager.option("-b", "--business-days", dest="business_days", action="store_true",
                       help="Give the count of business days only")
 def deadline(date, event, business_days):
     """ Method takes two optional arguments. Displays in slack channel
     the number of days till the event. If no arguments are given,
     the number of days till Christmas is displayed.
-    """    
+    """
     try:
         result = ""
         if date:
@@ -152,17 +147,17 @@ def deadline(date, event, business_days):
         post_error()
     else:
         post(result)
-        
+
 
 
 @manager.command
 def initiate():
     payload = { "text": "App is now connected to your Slack Channel."}
     r = requests.post(SLACK_URL, data=json.dumps(payload))
-    
-    
 
-    
+
+
+
 if __name__ == "__main__":
     manager.run()
 
